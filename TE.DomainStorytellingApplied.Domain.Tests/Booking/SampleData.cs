@@ -1,6 +1,7 @@
+using TE.DomainStorytellingApplied.Domain.Booking;
 using TE.DomainStorytellingApplied.Domain.Bookers;
 
-namespace TE.DomainStorytellingApplied.Domain.Booking;
+namespace TE.DomainStorytellingApplied.Domain.Tests.Booking;
 
 public static class SampleData
 {
