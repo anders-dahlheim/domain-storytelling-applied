@@ -26,7 +26,12 @@ public class BookingSystem
 
     public Booker AddBooker(string firstName, string lastName, string phoneNumber, string email, IBookerType type)
     {
-        var booker = new Booker(firstName, lastName, phoneNumber, email, type);
+        var booker = new Booker(
+            new Name(firstName),
+            new Name(lastName),
+            new PhoneNumber(phoneNumber),
+            new Email(email),
+            type);
         _bookers.Add(booker);
         return booker;
     }

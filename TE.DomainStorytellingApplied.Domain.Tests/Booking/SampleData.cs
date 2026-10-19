@@ -13,7 +13,7 @@ public static class SampleData
 
         var employee = system.AddBooker("Erik", "Lindqvist", "070-1112233", "erik.lindqvist@kommun.se", new MunicipalityEmployee());
         var privatePerson = system.AddBooker("Sara", "Nilsson", "073-4445566", "sara.nilsson@example.com", new PrivateIndividual());
-        var representative = system.AddBooker("Johan", "Berg", "076-7778899", "johan.berg@ifk.se", new AssociationRepresentative("IFK Göteborg"));
+        var representative = system.AddBooker("Johan", "Berg", "076-7778899", "johan.berg@ifk.se", new AssociationRepresentative(new Name("IFK Göteborg")));
 
         var gymMorning = system.AddTimeslot(gym.Id, At(13, 8), At(13, 10));
         system.AddTimeslot(gym.Id, At(13, 18), At(13, 20));

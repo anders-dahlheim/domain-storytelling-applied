@@ -1,14 +1,12 @@
-using TE.DomainStorytellingApplied.Domain.Common;
-
 namespace TE.DomainStorytellingApplied.Domain.Bookers;
 
 public sealed class AssociationRepresentative : IBookerType
 {
-    public string OrganizationName { get; private init; }
+    public Name OrganizationName { get; private init; }
 
-    public AssociationRepresentative(string organizationName)
+    public AssociationRepresentative(Name organizationName)
     {
-        Guard.EnsureNotEmpty(organizationName);
+        ArgumentNullException.ThrowIfNull(organizationName);
 
         OrganizationName = organizationName;
     }

@@ -4,30 +4,34 @@ namespace TE.DomainStorytellingApplied.Domain.Tests.Bookers;
 
 public class AssociationRepresentativeTests
 {
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void GivenEmptyOrganizationName_WhenCreating_ShouldThrow(string? organizationName)
+    [Fact]
+    public void GivenNullOrganizationName_WhenCreating_ShouldThrow()
     {
-        Should.Throw<ArgumentException>(() => new AssociationRepresentative(organizationName!));
+        Should.Throw<ArgumentNullException>(() => new AssociationRepresentative(null!));
     }
 
     [Fact]
     public void GivenValidOrganizationName_WhenCreating_ShouldSucceed()
     {
-        var type = new AssociationRepresentative("IFK Göteborg");
+        var organizationName = new Name("IFK Göteborg");
 
-        type.OrganizationName.ShouldBe("IFK Göteborg");
+        var type = new AssociationRepresentative(organizationName);
+
+        type.OrganizationName.ShouldBe(organizationName);
     }
 
     [Fact]
     public void GivenAssociationRepresentative_WhenCreatingBooker_ShouldExposeOrganizationName()
     {
-        var booker = new Booker("Anna", "Andersson", "070-1234567", "anna@example.com",
-            new AssociationRepresentative("IFK Göteborg"));
+        var organizationName = new Name("IFK Göteborg");
+        var booker = new Booker(
+            new Name("Anna"),
+            new Name("Andersson"),
+            new PhoneNumber("070-1234567"),
+            new Email("anna@example.com"),
+            new AssociationRepresentative(organizationName));
 
         booker.Type.ShouldBeOfType<AssociationRepresentative>()
-            .OrganizationName.ShouldBe("IFK Göteborg");
+            .OrganizationName.ShouldBe(organizationName);
     }
 }

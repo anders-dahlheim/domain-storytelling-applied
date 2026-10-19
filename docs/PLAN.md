@@ -37,15 +37,16 @@ TE.DomainStorytellingApplied.Domain.Tests/
 
 ## Steg 3 – Booker ✅
 **Mål:** Den som bokar.
-- `Id`, `FirstName`, `LastName`, `PhoneNumber`, `Email`, `Type`
-- `Type` injiceras som `IBookerType`: `MunicipalityEmployee`, `PrivateIndividual`, `AssociationRepresentative` (med `OrganizationName`)
-- Inga textfält får vara tomma/null
+- `Id`, `FirstName`, `LastName`, `PhoneNumber`, `Email`, `Type` (värdeobjekt där det är motiverat)
+- `Name` (VO) för förnamn, efternamn och `OrganizationName` – samma regel (ej tom)
+- `Email` och `PhoneNumber` som egna VO
+- `Type` injiceras som `IBookerType`: `MunicipalityEmployee`, `PrivateIndividual`, `AssociationRepresentative`
+- `Booker`/`AssociationRepresentative` litar på VO; tomma strängar avvisas i VO-konstruktorerna
 
 **Tester:**
-- Tomt/null/blanksteg i varje textfält → fel
-- `null` som typ → fel
+- Tomt/null/blanksteg i `Name`/`Email`/`PhoneNumber` → fel
+- `null` för VO eller typ i `Booker`/`AssociationRepresentative` → fel
 - Varje booker-typ kan sättas
-- `AssociationRepresentative` utan organisationsnamn → fel
 - Två bookers får olika `Id`
 
 ## Steg 4 – Reservation (skapande) ✅

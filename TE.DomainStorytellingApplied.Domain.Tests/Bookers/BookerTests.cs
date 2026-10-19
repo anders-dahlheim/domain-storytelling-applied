@@ -4,57 +4,45 @@ namespace TE.DomainStorytellingApplied.Domain.Tests.Bookers;
 
 public class BookerTests
 {
-    private const string FirstName = "Anna";
-    private const string LastName = "Andersson";
-    private const string PhoneNumber = "070-1234567";
-    private const string Email = "anna@example.com";
+    private static readonly Name FirstName = new("Anna");
+    private static readonly Name LastName = new("Andersson");
+    private static readonly PhoneNumber PhoneNumber = new("070-1234567");
+    private static readonly Email Email = new("anna@example.com");
     private static readonly IBookerType DefaultType = new PrivateIndividual();
 
     public static TheoryData<IBookerType> AllBookerTypes =>
     [
         new MunicipalityEmployee(),
         new PrivateIndividual(),
-        new AssociationRepresentative("IFK Göteborg")
+        new AssociationRepresentative(new Name("IFK Göteborg"))
     ];
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void GivenEmptyFirstName_WhenCreatingBooker_ShouldThrow(string? firstName)
+    [Fact]
+    public void GivenNullFirstName_WhenCreatingBooker_ShouldThrow()
     {
-        Should.Throw<ArgumentException>(() =>
-            new Booker(firstName!, LastName, PhoneNumber, Email, DefaultType));
+        Should.Throw<ArgumentNullException>(() =>
+            new Booker(null!, LastName, PhoneNumber, Email, DefaultType));
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void GivenEmptyLastName_WhenCreatingBooker_ShouldThrow(string? lastName)
+    [Fact]
+    public void GivenNullLastName_WhenCreatingBooker_ShouldThrow()
     {
-        Should.Throw<ArgumentException>(() =>
-            new Booker(FirstName, lastName!, PhoneNumber, Email, DefaultType));
+        Should.Throw<ArgumentNullException>(() =>
+            new Booker(FirstName, null!, PhoneNumber, Email, DefaultType));
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void GivenEmptyPhoneNumber_WhenCreatingBooker_ShouldThrow(string? phoneNumber)
+    [Fact]
+    public void GivenNullPhoneNumber_WhenCreatingBooker_ShouldThrow()
     {
-        Should.Throw<ArgumentException>(() =>
-            new Booker(FirstName, LastName, phoneNumber!, Email, DefaultType));
+        Should.Throw<ArgumentNullException>(() =>
+            new Booker(FirstName, LastName, null!, Email, DefaultType));
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void GivenEmptyEmail_WhenCreatingBooker_ShouldThrow(string? email)
+    [Fact]
+    public void GivenNullEmail_WhenCreatingBooker_ShouldThrow()
     {
-        Should.Throw<ArgumentException>(() =>
-            new Booker(FirstName, LastName, PhoneNumber, email!, DefaultType));
+        Should.Throw<ArgumentNullException>(() =>
+            new Booker(FirstName, LastName, PhoneNumber, null!, DefaultType));
     }
 
     [Fact]
@@ -62,13 +50,6 @@ public class BookerTests
     {
         Should.Throw<ArgumentNullException>(() =>
             new Booker(FirstName, LastName, PhoneNumber, Email, null!));
-    }
-
-    [Fact]
-    public void GivenAssociationRepresentativeWithoutOrganization_WhenCreatingBooker_ShouldThrow()
-    {
-        Should.Throw<ArgumentException>(() =>
-            new Booker(FirstName, LastName, PhoneNumber, Email, new AssociationRepresentative("")));
     }
 
     [Theory]
