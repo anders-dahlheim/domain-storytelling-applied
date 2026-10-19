@@ -50,16 +50,17 @@ TE.DomainStorytellingApplied.Domain.Tests/
 
 ## Steg 4 – Reservation (skapande) ✅
 **Mål:** Systemet skapar en reservation när en Booker reserverar en Timeslot.
-- `Id`, `Booker`, `Timeslot`, `Premise`, `Status` (`Pending`/`Approved`)
+- `Id`, `BookerId`, `TimeslotId`, `PremiseId`, `Status` (`Pending`/`Approved`)
+- Refererar övriga aggregatrotsar via id (inte objektreferenser)
 - Ny reservation får status `Pending`
-- Timesloten måste tillhöra den angivna lokalen
+- `BookingSystem` validerar att Booker, Timeslot och Premise finns innan skapande; `PremiseId` hämtas från timeslotens `PremisesId`
 
 **Tester:**
 - Ny reservation har status `Pending`
-- Reservation refererar rätt Booker, Timeslot och Premise
+- Reservation refererar rätt Booker, Timeslot och Premise via id
 - Två reservationer får olika `Id`
-- `null` för Booker/Timeslot/Premise → fel
-- Timeslot för annan lokal → fel
+- Tomt `BookerId`/`TimeslotId`/`PremiseId` → fel
+- Okänd Booker eller Timeslot vid reservning → fel
 
 ## Steg 5 – Reservation (statusövergångar)
 **Mål:** Reservationen kan godkännas eller avslås, men bara från rätt status.
