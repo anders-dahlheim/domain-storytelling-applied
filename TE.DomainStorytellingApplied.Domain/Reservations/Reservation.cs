@@ -1,32 +1,25 @@
-using TE.DomainStorytellingApplied.Domain.Bookers;
-using TE.DomainStorytellingApplied.Domain.Premises;
-using TE.DomainStorytellingApplied.Domain.Timeslots;
+using TE.DomainStorytellingApplied.Domain.Common;
 
 namespace TE.DomainStorytellingApplied.Domain.Reservations;
 
 public class Reservation
 {
     public Guid Id { get; private init; }
-    public Booker Booker { get; private init; }
-    public Timeslot Timeslot { get; private init; }
-    public Premise Premise { get; private init; }
+    public Guid BookerId { get; private init; }
+    public Guid TimeslotId { get; private init; }
+    public Guid PremiseId { get; private init; }
     public ReservationStatus Status { get; private set; }
 
-    public Reservation(Booker booker, Timeslot timeslot, Premise premise)
+    public Reservation(Guid bookerId, Guid timeslotId, Guid premiseId)
     {
-        ArgumentNullException.ThrowIfNull(booker);
-        ArgumentNullException.ThrowIfNull(timeslot);
-        ArgumentNullException.ThrowIfNull(premise);
-
-        if (timeslot.PremisesId != premise.Id)
-        {
-            throw new ArgumentException("The timeslot does not belong to the given premise.", nameof(timeslot));
-        }
+        Guard.EnsureNotEmpty(bookerId);
+        Guard.EnsureNotEmpty(timeslotId);
+        Guard.EnsureNotEmpty(premiseId);
 
         Id = Guid.NewGuid();
-        Booker = booker;
-        Timeslot = timeslot;
-        Premise = premise;
+        BookerId = bookerId;
+        TimeslotId = timeslotId;
+        PremiseId = premiseId;
         Status = ReservationStatus.Pending;
     }
 }

@@ -33,7 +33,8 @@ public class BookingSystem
 
     public Timeslot AddTimeslot(Guid premiseId, DateTime startTime, DateTime endTime)
     {
-        var premise = FindPremise(premiseId);
+        var premise = _premises.FirstOrDefault(p => p.Id == premiseId)
+            ?? throw new ArgumentException($"No premise with id {premiseId}.", nameof(premiseId));
         var timeslot = new Timeslot(premise.Id, startTime, endTime);
         _timeslots.Add(timeslot);
         return timeslot;
@@ -45,14 +46,11 @@ public class BookingSystem
             ?? throw new ArgumentException($"No booker with id {bookerId}.", nameof(bookerId));
         var timeslot = _timeslots.FirstOrDefault(t => t.Id == timeslotId)
             ?? throw new ArgumentException($"No timeslot with id {timeslotId}.", nameof(timeslotId));
-        var premise = FindPremise(timeslot.PremisesId);
+        var premise = _premises.FirstOrDefault(p => p.Id == timeslot.PremisesId)
+            ?? throw new ArgumentException($"No premise with id {timeslot.PremisesId}.");
 
-        var reservation = new Reservation(booker, timeslot, premise);
+        var reservation = new Reservation(booker.Id, timeslot.Id, premise.Id);
         _reservations.Add(reservation);
         return reservation;
     }
-
-    private Premise FindPremise(Guid premiseId) =>
-        _premises.FirstOrDefault(p => p.Id == premiseId)
-            ?? throw new ArgumentException($"No premise with id {premiseId}.", nameof(premiseId));
 }

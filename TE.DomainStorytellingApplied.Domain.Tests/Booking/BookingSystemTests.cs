@@ -75,9 +75,9 @@ public class BookingSystemTests
         var reservation = _system.Reserve(booker.Id, timeslot.Id);
 
         reservation.Status.ShouldBe(ReservationStatus.Pending);
-        reservation.Booker.ShouldBe(booker);
-        reservation.Timeslot.ShouldBe(timeslot);
-        reservation.Premise.ShouldBe(premise);
+        reservation.BookerId.ShouldBe(booker.Id);
+        reservation.TimeslotId.ShouldBe(timeslot.Id);
+        reservation.PremiseId.ShouldBe(premise.Id);
         _system.Reservations.ShouldContain(reservation);
     }
 
